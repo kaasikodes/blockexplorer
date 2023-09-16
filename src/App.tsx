@@ -1,34 +1,20 @@
-import { Alchemy, Network } from "alchemy-sdk";
-import { useEffect, useState } from "react";
-
 import "./App.css";
 import BlockContainer from "./components/blocks/BlockContainer";
+import { useGetBlockNumber } from "./hooks/block/useGetBlockNumber";
+import { BeatLoader } from "react-spinners";
 
 // Refer to the README doc for more information about using API
 // keys in client-side code. You should never do this in production
 // level code.
-const settings = {
-  apiKey: import.meta.env.VITE_ALCHEMY_API_KEY,
-  network: Network.ETH_MAINNET,
-};
 
 // In this week's lessons we used ethers.js. Here we are using the
 // Alchemy SDK is an umbrella library with several different packages.
 //
 // You can read more about the packages here:
 //   https://docs.alchemy.com/reference/alchemy-sdk-api-surface-overview#api-surface
-const alchemy = new Alchemy(settings);
 
 function App() {
-  const [blockNumber, setBlockNumber] = useState<number>();
-
-  useEffect(() => {
-    async function getBlockNumber() {
-      setBlockNumber(await alchemy.core.getBlockNumber());
-    }
-
-    getBlockNumber();
-  });
+  const { isLoading, data: blockNumber } = useGetBlockNumber();
 
   // TODO: Home Page Should a list of blocks
   // TODO: A block page should be created for the user to see block information & a list of transactions
@@ -37,7 +23,9 @@ function App() {
 
   return (
     <div className="">
-      <div>Block Number: {blockNumber}</div>
+      <div className="text-left bg-green-400">
+        Block Number: {isLoading ? <BeatLoader /> : <span>{blockNumber}</span>}
+      </div>
 
       <BlockContainer />
     </div>
