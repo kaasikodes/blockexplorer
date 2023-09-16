@@ -2,12 +2,13 @@ import { Alchemy, Network } from "alchemy-sdk";
 import { useEffect, useState } from "react";
 
 import "./App.css";
+import BlockContainer from "./components/blocks/BlockContainer";
 
 // Refer to the README doc for more information about using API
 // keys in client-side code. You should never do this in production
 // level code.
 const settings = {
-  apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
+  apiKey: import.meta.env.VITE_ALCHEMY_API_KEY,
   network: Network.ETH_MAINNET,
 };
 
@@ -19,7 +20,7 @@ const settings = {
 const alchemy = new Alchemy(settings);
 
 function App() {
-  const [blockNumber, setBlockNumber] = useState();
+  const [blockNumber, setBlockNumber] = useState<number>();
 
   useEffect(() => {
     async function getBlockNumber() {
@@ -34,7 +35,13 @@ function App() {
   // A modal should pop up for the user to be able to see the details of a transaction
   // A view account details page should be present so user can view their account details
 
-  return <div className="App">Block Number: {blockNumber}</div>;
+  return (
+    <div className="">
+      <div>Block Number: {blockNumber}</div>
+
+      <BlockContainer />
+    </div>
+  );
 }
 
 export default App;
