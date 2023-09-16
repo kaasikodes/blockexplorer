@@ -3,7 +3,7 @@ import alchemy from "../../lib/alchemy";
 
 export const QUERY_KEY_FOR_BLOCK_NUMBER = "block-number";
 
-const getData = async (): Promise<number> => {
+const getData = async () => {
   return await alchemy.core.getBlockNumber();
 };
 
